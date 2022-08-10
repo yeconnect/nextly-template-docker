@@ -2,15 +2,17 @@ version: '3'
 
 services:
   nextly-template:
-    container_name: nextly-template-app
     build: .
     tty: true
-    volumes:
-      - type: bind
-        source: .
-        target: /app
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app
+      - nextly_template_node_modules:/app/node_modules
     environment:
-      - NODE_OPTIONS=--openssl-legacy-provider
-    command: yarn dev
+      - WATCHPACK_POLLING=true
+    command: sh -c "cd /app && yarn dev"
+
+# 以下追記
+volumes:
+  nextly_template_node_modules:
